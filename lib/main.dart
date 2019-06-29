@@ -1,8 +1,9 @@
-import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import './page/detail.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -144,8 +145,13 @@ class _HomePageState extends State<HomePage> {
                           subtitle: Text("PF : ${userData[index]['PF']}% , PK : ${userData[index]['PK']}%"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: (){
-
-                          },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context ) => Detail()
+                              )
+                            );
+                          }
                         ),
                       ),
                     );
