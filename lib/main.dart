@@ -4,10 +4,11 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './page/detail.dart';
+import './page/login.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: HomePage(),
+    home: Login(),
   ));
 }
 
@@ -106,6 +107,22 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login())
+                );
+              },
+              child: ListTile(
+                title:
+                    Text("Log Out", style: TextStyle(color: Colors.green[800])),
+                leading: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.green[600],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -129,6 +146,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
                 child: ListView.builder(
+                  
                   itemCount: userData == null ? 0 : userData.length,
                   itemBuilder: (BuildContext context, int index){
                     return Card(

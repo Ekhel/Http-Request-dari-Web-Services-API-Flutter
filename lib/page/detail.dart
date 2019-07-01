@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 import '../main.dart';
 
 class Detail extends StatefulWidget {
+  //final String skpd;
+  //Detail({Key key, this.skpd}) : super(key: key);
+
   @override
   _DetailState createState() => _DetailState();
 }
 
 class _DetailState extends State<Detail> {
+  static String skpd;
+  Map data;
+  List dataDetail;
+
+  String url = 'http://sickat.jayapurakab.go.id/api/get_detail_realisasi_pd/2';
+  Future getData() async {
+    http.Response response =
+        await http.get('http://sickat.jayapurakab.go.id/api/get_detail_realisasi_pd/2');
+    data = json.decode(response.body);
+    setState(() {
+      dataDetail = data["skpd"];
+    });
+    debugPrint(dataDetail.toString());
+  }
+
+
   Widget imageCarousel = new Container(
-      height: 200.0,
+      height: 150.0,
       child: Carousel(
         overlayShadow: false,
         borderRadius: true,
@@ -43,24 +65,24 @@ class _DetailState extends State<Detail> {
             )
           ],
         ),
-        body: ListView(
-          children: <Widget>[
-            SizedBox(height: 5.0),
-            imageCarousel,
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-                left: 8.0,
+        body: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: dataDetail == null ? 0 : dataDetail.length,
+          itemBuilder: (BuildContext context, int index){
+            imageCarousel;
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 24.0,
+                ),
+                child: ListTile(
+                  title: Text("Dinas Kesehatan".toUpperCase()),
+                  subtitle: Text("11.200.000"),
+                ),
               ),
-              child: Text(
-                'Detail Realisasi DINKES',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                    color: Colors.purpleAccent),
-              ),
-            ),
-          ],
+            );
+          }
         ),
       ),
     );
